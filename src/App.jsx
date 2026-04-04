@@ -7,6 +7,7 @@ import AuthPage from './pages/AuthPage'
 import QuestionsPage from './pages/QuestionsPage'
 import TestPage from './pages/TestPage'
 import RoadmapPage from './pages/RoadmapPage'
+import AIRoadmapGeneratorPage from './pages/AIRoadmapGeneratorPage'
 import LearningPage from './pages/LearningPage'
 import ModuleTestPage from './pages/ModuleTestPage'
 import DashboardPage from './pages/DashboardPage'
@@ -69,6 +70,15 @@ export default function App() {
           element={
             <ProtectedRoute>
               <RoadmapPage />
+            </ProtectedRoute>
+          }
+        />
+        
+        <Route
+          path="/ai-roadmap"
+          element={
+            <ProtectedRoute>
+              <AIRoadmapGeneratorPage />
             </ProtectedRoute>
           }
         />

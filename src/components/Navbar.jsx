@@ -29,6 +29,9 @@ export default function Navbar() {
                 <Link to="/roadmap" className="text-gray-700 hover:text-primary transition">
                   Roadmap
                 </Link>
+                <Link to="/ai-roadmap" className="text-gray-700 hover:text-primary transition font-semibold">
+                  🤖 AI Roadmap
+                </Link>
                 <Link to="/profile" className="text-gray-700 hover:text-primary transition">
                   Profile
                 </Link>
