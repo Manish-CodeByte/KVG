@@ -188,3 +188,132 @@ export const subscribeToUserStats = (userId, callback) => {
   
   return subscription
 }
+
+// ============================================
+// PROFILE OPERATIONS
+// ============================================
+
+/**
+ * Create or update a user profile
+ * @param {string} userId - Clerk user ID
+ * @param {object} profileData - Profile information
+ * @returns {object} Saved profile data
+ */
+export const saveUserExtendedProfile = async (userId, profileData) => {
+  const { data, error } = await supabase
+    .from('profiles')
+    .upsert(
+      {
+        user_id: userId,
+        ...profileData,
+        updated_at: new Date(),
+      },
+      { onConflict: 'user_id' }
+    )
+    .select()
+  
+  if (error) throw error
+  return data?.[0]
+}
+
+/**
+ * Get user profile details
+ * @param {string} userId - Clerk user ID
+ * @returns {object} User profile data
+ */
+export const getUserExtendedProfile = async (userId) => {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('user_id', userId)
+    .single()
+  
+  if (error && error.code !== 'PGRST116') throw error
+  return data
+}
+
+/**
+ * Update specific profile fields
+ * @param {string} userId - Clerk user ID
+ * @param {object} updates - Fields to update
+ * @returns {object} Updated profile data
+ */
+export const updateUserProfile = async (userId, updates) => {
+  const { data, error } = await supabase
+    .from('profiles')
+    .update({
+      ...updates,
+      updated_at: new Date(),
+    })
+    .eq('user_id', userId)
+    .select()
+  
+  if (error) throw error
+  return data?.[0]
+}
+
+/**
+ * Update follow-up assessment answers (stores as JSONB)
+ * @param {string} userId - Clerk user ID
+ * @param {object} answers - Follow-up survey answers
+ * @returns {object} Updated profile data
+ */
+export const updateFollowUpAnswers = async (userId, answers) => {
+  const { data, error } = await supabase
+    .from('profiles')
+    .update({
+      follow_up_answers: answers,
+      updated_at: new Date(),
+    })
+    .eq('user_id', userId)
+    .select()
+  
+  if (error) throw error
+  return data?.[0]
+}
+
+/**
+ * Delete user profile
+ * @param {string} userId - Clerk user ID
+ * @returns {boolean} Success status
+ */
+export const deleteUserProfile = async (userId) => {
+  const { error } = await supabase
+    .from('profiles')
+    .delete()
+    .eq('user_id', userId)
+  
+  if (error) throw error
+  return true
+}
+
+/**
+ * Get all profiles (admin use only)
+ * @returns {array} All profiles
+ */
+export const getAllProfiles = async () => {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .order('created_at', { ascending: false })
+  
+  if (error) throw error
+  return data
+}
+
+/**
+ * Subscribe to profile changes in real-time
+ * @param {string} userId - Clerk user ID
+ * @param {function} callback - Function to call on data change
+ * @returns {object} Subscription object
+ */
+export const subscribeToUserProfile = (userId, callback) => {
+  const subscription = supabase
+    .from(`profiles:user_id=eq.${userId}`)
+    .on('*', (payload) => {
+      callback(payload)
+    })
+    .subscribe()
+  
+  return subscription
+}

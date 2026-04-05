@@ -1,11 +1,29 @@
+import { useTheme } from '../context/ThemeContext'
+
 export default function ChartCard({ title, subtitle, children, className = '' }) {
+  const { isDark } = useTheme()
+
   return (
-    <div className={`bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-lg hover:shadow-xl hover:bg-white/90 transition ${className}`}>
+    <div className={`
+      rounded-2xl p-6 transition-all duration-300 hover-lift animate-fade-in
+      ${isDark
+        ? 'bg-slate-800/50 border border-slate-700/50 hover:bg-slate-800/70'
+        : 'bg-white/80 backdrop-blur-xl border border-white/20 hover:bg-white/90'
+      } ${className}
+    `}>
       {/* Header */}
       {(title || subtitle) && (
-        <div className="mb-6 pb-4 border-b border-gray-200">
-          {title && <h3 className="text-xl font-bold text-gray-900 mb-1">{title}</h3>}
-          {subtitle && <p className="text-sm text-gray-600">{subtitle}</p>}
+        <div className={`mb-6 pb-4 ${isDark ? 'border-b border-slate-700/50' : 'border-b border-gray-200'}`}>
+          {title && (
+            <h3 className={`text-xl font-bold mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+              {title}
+            </h3>
+          )}
+          {subtitle && (
+            <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+              {subtitle}
+            </p>
+          )}
         </div>
       )}
 

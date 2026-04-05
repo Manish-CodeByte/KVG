@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { useUser } from '@clerk/clerk-react'
 import { ToastProvider } from './context/ToastContext'
+import { ThemeProvider } from './context/ThemeContext'
 import Toast from './components/Toast'
 import LandingPage from './pages/LandingPage'
 import AuthPage from './pages/AuthPage'
@@ -40,97 +41,99 @@ const ProtectedRoute = ({ children }) => {
 
 export default function App() {
   return (
-    <ToastProvider>
-      <Router>
-        <Toast />
-        <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/auth" element={<AuthPage />} />
-        
-        <Route
-          path="/questions"
-          element={
-            <ProtectedRoute>
-              <QuestionsPage />
-            </ProtectedRoute>
-          }
-        />
-        
-        <Route
-          path="/test"
-          element={
-            <ProtectedRoute>
-              <TestPage />
-            </ProtectedRoute>
-          }
-        />
-        
-        <Route
-          path="/roadmap"
-          element={
-            <ProtectedRoute>
-              <RoadmapPage />
-            </ProtectedRoute>
-          }
-        />
-        
-        <Route
-          path="/ai-roadmap"
-          element={
-            <ProtectedRoute>
-              <AIRoadmapGeneratorPage />
-            </ProtectedRoute>
-          }
-        />
-        
-        <Route
-          path="/learn/:id"
-          element={
-            <ProtectedRoute>
-              <LearningPage />
-            </ProtectedRoute>
-          }
-        />
-        
-        <Route
-          path="/module-test/:id"
-          element={
-            <ProtectedRoute>
-              <ModuleTestPage />
-            </ProtectedRoute>
-          }
-        />
-        
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <DashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        
-        <Route
-          path="/performance"
-          element={
-            <ProtectedRoute>
-              <PerformancePage />
-            </ProtectedRoute>
-          }
-        />
-        
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <ProfilePage />
-            </ProtectedRoute>
-          }
-        />
+    <ThemeProvider>
+      <ToastProvider>
+        <Router>
+          <Toast />
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/auth" element={<AuthPage />} />
+            
+            <Route
+              path="/questions"
+              element={
+                <ProtectedRoute>
+                  <QuestionsPage />
+                </ProtectedRoute>
+              }
+            />
+            
+            <Route
+              path="/test"
+              element={
+                <ProtectedRoute>
+                  <TestPage />
+                </ProtectedRoute>
+              }
+            />
+            
+            <Route
+              path="/roadmap"
+              element={
+                <ProtectedRoute>
+                  <RoadmapPage />
+                </ProtectedRoute>
+              }
+            />
+            
+            <Route
+              path="/ai-roadmap"
+              element={
+                <ProtectedRoute>
+                  <AIRoadmapGeneratorPage />
+                </ProtectedRoute>
+              }
+            />
+            
+            <Route
+              path="/learn/:id"
+              element={
+                <ProtectedRoute>
+                  <LearningPage />
+                </ProtectedRoute>
+              }
+            />
+            
+            <Route
+              path="/module-test/:id"
+              element={
+                <ProtectedRoute>
+                  <ModuleTestPage />
+                </ProtectedRoute>
+              }
+            />
+            
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <DashboardPage />
+                </ProtectedRoute>
+              }
+            />
+            
+            <Route
+              path="/performance"
+              element={
+                <ProtectedRoute>
+                  <PerformancePage />
+                </ProtectedRoute>
+              }
+            />
+            
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
 
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-      </Router>
-    </ToastProvider>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Router>
+      </ToastProvider>
+    </ThemeProvider>
   )
 }
